@@ -25,29 +25,43 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	
 	Scene regisScene;
-	Scene homeScene;
+	Scene loginScene;
+	Scene editProfileScene;
 	
-	void homeFunction(Stage primaryStage) {
+	void loginFunction(Stage primaryStage) {
+		BorderPane bp = new BorderPane();
+		bp.setTop(createNavBar(primaryStage));
+		
+		loginScene = new Scene(bp, 1600, 800); 
+		
+		//Email
+		Label emailLbl = new Label("Email: ");
+		TextField emailTf = new TextField();
+		
+		//Password
+		Label passLbl = new Label("Password: ");
+		PasswordField passTf = new PasswordField();
+		passTf.setMinWidth(300);
+		
 		GridPane gp = new GridPane();
-		homeScene = new Scene (gp, 1600, 800);
+		gp.setAlignment(Pos.CENTER);
+		gp.setVgap(10);
 		
-		Label itemLabel = new Label("Item Label: ");
-		TextArea inputItem = new TextArea();
+		gp.add(emailLbl, 0, 0); 
+		gp.add(emailTf, 1, 0);
+		gp.add(passLbl, 0, 1);
+		gp.add(passTf, 1, 1);
 		
-		Label quantityLabel = new Label("Quantity: ");
-		Spinner<Integer> quantitySpinner = new Spinner<>(1, 20, 1);
+		VBox vb = new VBox(20);
+		vb.setAlignment(Pos.CENTER);
 		
-		Button insertBtn = new Button("Insert Data: ");
+		Label registLabel = new Label("Login Page");
 		
-		ListView<String> dataList = new ListView<>();
-		ObservableList<String> items = FXCollections.observableArrayList();
+		Button regisBtn = new Button("Login");
 		
-		gp.add(itemLabel, 0, 0);
-		gp.add(inputItem, 0, 1);
-		gp.add(quantityLabel, 0, 2);
-		gp.add(quantitySpinner, 0, 3);
-		gp.add(insertBtn, 0, 4);
-		gp.add(dataList, 0, 5);
+		vb.getChildren().addAll(registLabel, gp, regisBtn);
+		
+		bp.setCenter(vb);
 		
 	}
 	
@@ -55,70 +69,111 @@ public class Main extends Application {
 		
 		
 		BorderPane bp = new BorderPane();
+		bp.setTop(createNavBar(primaryStage));
 		
-		regisScene = new Scene(bp, 1600, 800); //Layout manager, x size, y size
+		regisScene = new Scene(bp, 1600, 800); 
 		
-		//Text Field
+		//Email
+		Label emailLbl = new Label("Email: ");
+		TextField emailTf = new TextField();
+		
+		//Username
 		Label nameLbl = new Label("Username: ");
 		TextField nameTf = new TextField();
 		
-		//Pass Field
+		//Password
 		Label passLbl = new Label("Password: ");
 		PasswordField passTf = new PasswordField();
 		passTf.setMinWidth(300);
 		
-		//Radio Button
-		Label genderLbl = new Label("Gender: ");
-		RadioButton maleBtn = new RadioButton("Male");
-		RadioButton femaleBtn = new RadioButton("Female");
+		//Role
+		Label roleLbl = new Label("Role: ");	
+		ComboBox<String> rolePicker = new ComboBox<>();
+		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest");
+	
+		GridPane gp = new GridPane();
+		gp.setAlignment(Pos.CENTER);
+		gp.setVgap(10);
 		
-		ToggleGroup genderGroup = new ToggleGroup();
-		maleBtn.setToggleGroup(genderGroup);
-		femaleBtn.setToggleGroup(genderGroup);
+		gp.add(emailLbl, 0, 0);
+		gp.add(emailTf, 1, 0);
+		gp.add(nameLbl, 0, 1);
+		gp.add(nameTf, 1, 1);
+		gp.add(passLbl, 0, 2);
+		gp.add(passTf, 1, 2);
+		gp.add(roleLbl, 0, 3);
+		gp.add(rolePicker, 1, 3);
 		
-		HBox genderContainer = new HBox(10);
-		genderContainer.getChildren().addAll(maleBtn, femaleBtn);
+		VBox vb = new VBox(20);
+		vb.setAlignment(Pos.CENTER);
 		
-		//Combo Box
-		Label userTypeLbl = new Label("User Type: ");
-		ComboBox<String> typeCombo = new ComboBox<>();
-		typeCombo.getItems().addAll("Pembeli", "Penjual");
+		Label registLabel = new Label("Register Page");
 		
-		//Date Picker
-		Label dateOfBirthLbl = new Label("Date of Birth: ");
-		DatePicker DOBPicker = new DatePicker();
+		Button regisBtn = new Button("Sign up");
+		
+		vb.getChildren().addAll(registLabel, gp, regisBtn);
+		
+		bp.setCenter(vb);
+	}
+	
+	void editProfileFunction(Stage primaryStage) {
+		BorderPane bp = new BorderPane();
+		bp.setTop(createNavBar(primaryStage));
+		
+		editProfileScene = new Scene(bp, 1600, 800); 
+		
+		//Email
+		Label emailLbl = new Label("Email: ");
+		TextField emailTf = new TextField();
+		
+		//Name
+		Label nameLbl = new Label("Username: ");
+		TextField nameTf = new TextField();
+		
+		//Password
+		Label passLbl = new Label("Password: ");
+		PasswordField passTf = new PasswordField();
+		passTf.setMinWidth(300);
 		
 		GridPane gp = new GridPane();
 		gp.setAlignment(Pos.CENTER);
 		gp.setVgap(10);
 		
-		gp.add(nameLbl, 0, 0); //basically (thing, x-axis, y-axis)
-		gp.add(nameTf, 1, 0);
-		gp.add(passLbl, 0, 1);
-		gp.add(passTf, 1, 1);
-		gp.add(genderLbl, 0, 2);
-		gp.add(genderContainer, 1, 2);
-		gp.add(userTypeLbl, 0, 3);
-		gp.add(typeCombo, 1, 3);
-		gp.add(dateOfBirthLbl, 0, 4);
-		gp.add(DOBPicker, 1, 4);
+		gp.add(emailLbl, 0, 0); 
+		gp.add(emailTf, 1, 0);
+		gp.add(nameLbl, 0, 1);
+		gp.add(nameTf, 1, 1);
+		gp.add(passLbl, 0, 2);
+		gp.add(passTf, 1, 2);
 		
 		VBox vb = new VBox(20);
 		vb.setAlignment(Pos.CENTER);
 		
-		Label registLabel = new Label("Register");
+		Label registLabel = new Label("Edit Profile Page");
 		
-		Label ToSLbl = new Label("Accept Terms and Services");
-		CheckBox cbToS = new CheckBox();	
-		HBox ToSContainer = new HBox(10);
-		ToSContainer.getChildren().addAll(cbToS, ToSLbl);
-		ToSContainer.setAlignment(Pos.CENTER);
+		Button regisBtn = new Button("Edit");
 		
-		Button regisBtn = new Button("Sign up!");
+		vb.getChildren().addAll(registLabel, gp, regisBtn);
 		
-		vb.getChildren().addAll(registLabel, gp, ToSContainer, regisBtn);
+		bp.setCenter(vb);
 		
-		bp.setCenter(vb); //BorderPane nampung apa yang ada
+	}
+	
+	private HBox createNavBar(Stage primaryStage) {
+	    Button loginBtn = new Button("Login");
+	    Button registerBtn = new Button("Register");
+	    Button editProfileBtn = new Button("Edit Profile");
+
+	    loginBtn.setOnAction(e -> primaryStage.setScene(loginScene));
+	    registerBtn.setOnAction(e -> primaryStage.setScene(regisScene));
+	    editProfileBtn.setOnAction(e -> primaryStage.setScene(editProfileScene));
+
+	    HBox navBar = new HBox(10);
+	    navBar.setAlignment(Pos.CENTER);
+	    navBar.getChildren().addAll(loginBtn, registerBtn, editProfileBtn);
+	    navBar.setStyle("-fx-padding: 10; -fx-background-color: #dddddd;");
+
+	    return navBar;
 	}
 	
 	public static void main(String[] args) {
@@ -127,9 +182,13 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		registFunction(primaryStage);
-		primaryStage.setScene(regisScene);
-		primaryStage.show();
+		loginFunction(primaryStage);
+	    registFunction(primaryStage);
+	    editProfileFunction(primaryStage);
+
+	    primaryStage.setScene(regisScene); 
+	    primaryStage.setTitle("StellarFest");
+	    primaryStage.show();
 	}
 
 }
