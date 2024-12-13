@@ -6,12 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import main.Main;
 
 public class RegisterView {
 	
@@ -65,6 +67,12 @@ public class RegisterView {
 		Label registLabel = new Label("Register Page");
 
 		registerBtn = new Button("Sign up");
+		
+		Hyperlink loginLink = new Hyperlink ("Already Have an Account? Login Here!");
+		loginLink.setOnAction(event -> {
+			LoginView loginView = new LoginView();
+			Main.redirect(loginView.getLoginScene());
+		});
 
 		vb.getChildren().addAll(registLabel, gp, registerBtn);
 
@@ -90,9 +98,4 @@ public class RegisterView {
 	public String userRole() {
 		return rolePicker.getValue();
 	}
-	
-	public void setRegisterButtonAction(EventHandler<ActionEvent> handler) {
-		registerBtn.setOnAction(handler);
-	}
-
 }

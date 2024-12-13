@@ -5,12 +5,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import main.Main;
 
 public class LoginView {
 	
@@ -49,6 +51,12 @@ public class LoginView {
 		Label registLabel = new Label("Login Page");
 		
 		loginBtn = new Button("Login");
+		
+		Hyperlink registerLink = new Hyperlink ("Don't have an account yet? Register Here!");
+		registerLink.setOnAction(event -> {
+			RegisterView registerView = new RegisterView();
+			Main.redirect(registerView.getRegisterScene());
+		});
 		
 		vb.getChildren().addAll(registLabel, gp, loginBtn);
 		
