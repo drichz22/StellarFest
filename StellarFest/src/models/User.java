@@ -1,5 +1,7 @@
 package models;
 
+import utils.Connect;
+
 public class User {
 	
 	//Atribut dari User
@@ -8,6 +10,7 @@ public class User {
 	private String user_name;
 	private String user_password;
 	private String user_role;
+	protected static Connect connect = Connect.getInstance();
 	
 	//Constructor User
 	public User(String user_id, String user_email, String user_name, String user_password, String user_role) {
