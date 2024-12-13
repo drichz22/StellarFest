@@ -2,6 +2,7 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -12,8 +13,7 @@ public class Connect {
 	private final String passWord = "";
 	private final String DATABASE = "stellar_fest_db";
 	private final String HOST = "localhost:3306";
-	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST,DATABASE); // nanti berdasarkan xampp, ikutin video vbl aj
-	
+	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST,DATABASE);
 	public ResultSet resultSet;
 	public ResultSetMetaData resultSetMetaData;
 	
@@ -34,7 +34,6 @@ public class Connect {
 			state = connection.createStatement();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -44,7 +43,6 @@ public class Connect {
 			resultSet = state.executeQuery(query);
 			resultSetMetaData = resultSet.getMetaData();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return resultSet;
@@ -58,10 +56,18 @@ public class Connect {
 		try {
 			rowsAffected = state.executeUpdate(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rowsAffected;
-		
+	}
+	
+	public PreparedStatement prepareStatement (String query) {
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ps;
 	}
 }
