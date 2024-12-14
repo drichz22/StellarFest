@@ -26,17 +26,18 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		stage = primaryStage;
 		LoginView loginView = new LoginView();
 		RegisterView registerView = new RegisterView();
 		ChangeProfileView changeProfileView = new ChangeProfileView();
 		ViewOrganizedEvents_View organizedEventView = new ViewOrganizedEvents_View();
 		
-		UserController userController = new UserController();
+		UserController userController = new UserController(loginView, registerView, "Register Page");
 		EventOrganizerController eoController = new EventOrganizerController();
 		
 		primaryStage.setTitle("StellarFest");
-//		primaryStage.setScene(loginView.getLoginScene());
-		primaryStage.setScene(organizedEventView.getOrganizedEventScene());
+		primaryStage.setScene(registerView.getRegisterScene());
+		//primaryStage.setScene(organizedEventView.getOrganizedEventScene());
 		primaryStage.show();
 	}
 

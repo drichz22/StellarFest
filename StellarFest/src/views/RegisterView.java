@@ -1,5 +1,6 @@
 package views;
 
+import controllers.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import main.Main;
 
 public class RegisterView {
@@ -24,6 +26,7 @@ public class RegisterView {
 	private TextField nameTf;
 	private PasswordField passTf;
 	private ComboBox<String> rolePicker;
+	private Label messageLbl;
 	
 	public RegisterView() {
 		this.borderPane = new BorderPane();
@@ -46,7 +49,7 @@ public class RegisterView {
 		// Role
 		Label roleLbl = new Label("Role: ");
 		rolePicker = new ComboBox<>();
-		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest");
+		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest", "Admin");
 
 		GridPane gp = new GridPane();
 		gp.setAlignment(Pos.CENTER);
@@ -73,8 +76,14 @@ public class RegisterView {
 			LoginView loginView = new LoginView();
 			Main.redirect(loginView.getLoginScene());
 		});
+		
+		messageLbl = new Label();
+		messageLbl.setVisible(false);
+		
+		UserController userController = new UserController(null, this, "Register Page");
+		userController.Register();
 
-		vb.getChildren().addAll(registLabel, gp, registerBtn);
+		vb.getChildren().addAll(registLabel, gp, registerBtn, loginLink, messageLbl);
 
 		borderPane.setCenter(vb);
 	}
@@ -95,7 +104,30 @@ public class RegisterView {
 		return passTf.getText();
 	}
 	
-	public String userRole() {
+	public String getUserRole() {
 		return rolePicker.getValue();
 	}
+	
+	public void setValidationMessage(String valid) {
+		messageLbl.setText(valid);
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.RED);
+	}
+	
+	public void showSuccessMessage() {
+		messageLbl.setText("Registration Successful!");
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.GREEN);
+	}
+	
+	public void showErrorMessage() {
+		messageLbl.setText("Registration failed!");
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.RED);
+	}
+
+	public void setRegisterBtnAction(EventHandler<ActionEvent> handler) {
+    	registerBtn.setOnAction(handler);
+    }
+	
 }

@@ -1,5 +1,6 @@
 package views;
 
+import controllers.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import main.Main;
 
 public class LoginView {
@@ -21,6 +23,7 @@ public class LoginView {
 	private Button loginBtn;
 	private TextField emailTf;
 	private PasswordField passTf;
+	private Label messageLbl;
 	
 	public LoginView() {
 		this.borderPane = new BorderPane();
@@ -48,17 +51,17 @@ public class LoginView {
 		VBox vb = new VBox(20);
 		vb.setAlignment(Pos.CENTER);
 		
-		Label registLabel = new Label("Login Page");
+		Label loginLabel = new Label("Login Page");
 		
 		loginBtn = new Button("Login");
 		
-		Hyperlink registerLink = new Hyperlink ("Don't have an account yet? Register Here!");
-		registerLink.setOnAction(event -> {
-			RegisterView registerView = new RegisterView();
-			Main.redirect(registerView.getRegisterScene());
-		});
+		messageLbl = new Label();
+		messageLbl.setVisible(false);
 		
-		vb.getChildren().addAll(registLabel, gp, loginBtn);
+		UserController userController = new UserController(this, null, "Login Page");
+		userController.Login();
+			
+		vb.getChildren().addAll(loginLabel, gp, loginBtn, messageLbl);
 		
 		borderPane.setCenter(vb);
 		
@@ -76,8 +79,25 @@ public class LoginView {
 		return passTf.getText();
 	}
 	
-	public void setLoginButtonAction(EventHandler<ActionEvent> handler) {
-		loginBtn.setOnAction(handler);
+	public void setValidationMessage(String valid) {
+		messageLbl.setText(valid);
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.RED);
 	}
-
+	
+	public void showSuccessMessage() {
+		messageLbl.setText("Login Successful!");
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.GREEN);
+	}
+	
+	public void showErrorMessage() {
+		messageLbl.setText("Login failed!");
+		messageLbl.setVisible(true);
+		messageLbl.setTextFill(Color.RED);
+	}
+	
+	public void setLoginBtnAction(EventHandler<ActionEvent> handler) {
+    	loginBtn.setOnAction(handler);
+    }
 }

@@ -113,46 +113,6 @@ public class User {
 		return userList;
 	}
 	
-	//Untuk validasi apakah username unik atau tidak (fitur Register & Change Profile)
-	public static boolean isUsernameUnique(String username) {
-		String query = "SELECT COUNT(*) AS count_name FROM user WHERE user_name = ?";
-		PreparedStatement ps = connect.prepareStatement(query);
-		
-		try {
-			ps.setString(1, username);
-			ResultSet resultSet = ps.executeQuery();
-			
-			if(resultSet.next()) {
-				int nameCount = resultSet.getInt("count_name");
-				return nameCount == 0;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	//Untuk validasi apakah email unik atau tidak (fitur Register & Change Profile)
-	public static boolean isEmailUnique(String email) {
-		String query = "SELECT COUNT(*) AS count_email FROM user WHERE user_email = ?";
-		PreparedStatement ps = connect.prepareStatement(query);
-		
-		try {
-			ps.setString(1, email);
-			ResultSet resultSet = ps.executeQuery();
-			
-			if(resultSet.next()) {
-				int emailCount = resultSet.getInt("count_email");
-				return emailCount == 0;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
 	//Untuk keperluan validasi fitur Login
 	public static User getUserByEmailPassword(String email, String password) {
 		String query = "SELECT * FROM user WHERE user_email = ? AND user_password = ?";
@@ -179,7 +139,7 @@ public class User {
 		return user;
 	}
 	
-	//Sesuaiin ama class diagram
+	//Untuk validasi apakah Email unique atau tidak
 	public static User getUserByEmail(String email) {
 		String query = "SELECT * FROM user WHERE user_email = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
@@ -204,7 +164,7 @@ public class User {
 		return user;
 	}
 	
-	//Sesuaiin ama class diagram
+	//Untuk validasi apakah Username unique atau tidak
 	public static User getUserByUsername(String username) {
 		String query = "SELECT * FROM user WHERE user_name = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
