@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import views.ChangeProfileView;
+import views.CreateEventView;
+import views.EditEventNameView;
 import views.LoginView;
 import views.RegisterView;
 import views.ViewOrganizedEvents_View;
@@ -29,15 +31,24 @@ public class Main extends Application {
 		stage = primaryStage;
 		LoginView loginView = new LoginView();
 		RegisterView registerView = new RegisterView();
-		ChangeProfileView changeProfileView = new ChangeProfileView();
-		ViewOrganizedEvents_View organizedEventView = new ViewOrganizedEvents_View();
+//		ChangeProfileView changeProfileView = new ChangeProfileView();
+//		ViewOrganizedEvents_View organizedEventView = new ViewOrganizedEvents_View();
+//		CreateEventView createEventView = new CreateEventView();
+//		EditEventNameView editEventNameView = new EditEventNameView();
 		
 		UserController userController = new UserController(loginView, registerView, "Register Page");
 		EventOrganizerController eoController = new EventOrganizerController();
 		
+		
 		primaryStage.setTitle("StellarFest");
+
 		primaryStage.setScene(registerView.getRegisterScene());
 		//primaryStage.setScene(organizedEventView.getOrganizedEventScene());
+//		primaryStage.setScene(loginView.getLoginScene());
+//		primaryStage.setScene(organizedEventView.getOrganizedEventScene());
+//		primaryStage.setScene(createEventView.getCreateEventScene());
+//		primaryStage.setScene(editEventNameView.getEditEventNameScene());
+
 		primaryStage.show();
 	}
 
