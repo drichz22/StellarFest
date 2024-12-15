@@ -28,7 +28,7 @@ public class EventOrganizerController {
 	public static HashMap<Vendor, String> getVendorsByTransactionID(String eventID){
 		return EventOrganizer.getVendorsByTransactionID(eventID);
 	}
-	
+
 	public static HashMap<Guest, String> getGuestsByTransactionID(String eventID){
 		return EventOrganizer.getGuestsByTransactionID(eventID);
 	}
@@ -39,5 +39,13 @@ public class EventOrganizerController {
 
 	public static String checkEditEventName(String eventName) {
 		return EventOrganizer.checkEditEventName(eventName);
+	}
+
+	public static String checkAddVendorInput(String eventID, String vendorEmail) {
+		return EventOrganizer.checkAddVendorInput(eventID, vendorEmail);
+	}
+
+	public static String checkAddGuestInput(String eventID, String guestEmail) {
+		return EventOrganizer.checkAddGuestInput(eventID, guestEmail);
 	}
 }

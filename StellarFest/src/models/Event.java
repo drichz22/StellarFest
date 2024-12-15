@@ -21,7 +21,7 @@ public class Event {
 	public static boolean createEvent(String event_name, String event_date, String event_location, String event_description,
 			String organizer_id) {
 		String query = "INSERT INTO event (event_id, event_name, event_date, event_location, event_description, organizer_id) VALUES (?, ?, ?, ?, ?, ?)";
-		String lastId = "SELECT MAX(event_id) FROM event";
+		String lastId = "SELECT MAX(CAST(event_id AS UNSIGNED)) FROM event";
 
 		//Pertama, cek nilai id tertinggi yang ada buat nanti di increment
 		try (PreparedStatement countPs = connect.prepareStatement(lastId)) {

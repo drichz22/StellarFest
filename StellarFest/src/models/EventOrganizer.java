@@ -237,6 +237,7 @@ public class EventOrganizer extends User {
 			e.printStackTrace();
 		}
 	}
+
 	//Validasi nama event saat edit EventName
 	public static String checkEditEventName(String eventName) {
 		// Validasi namenya harus diisi
@@ -250,5 +251,43 @@ public class EventOrganizer extends User {
 		}
 
 		return null; // validasi lolos
+	}
+
+	//Validasi apakah vendor yang diundang ini sudah pernah di invite atau belum, jadi saya juga menambahkan parameter eventID
+	public static String checkAddVendorInput(String eventID, String vendorEmail) {
+		String query = "SELECT COUNT(*) AS count FROM invitation " +
+				"WHERE event_id = ? AND user_id = (SELECT user_id FROM user WHERE user_email = ?) AND invitation_role = 'Vendor'";
+
+		try (PreparedStatement ps = connect.prepareStatement(query)) {
+			ps.setString(1, eventID);
+			ps.setString(2, vendorEmail);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next() && rs.getInt("count") > 0) {
+				return "Vendor already invited"; // Berarti vendor belum diundang
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; // Berarti vendor sudah diundang
+	}
+
+	//Validasi apakah guest yang diundang ini sudah pernah di invite atau belum, jadi saya juga menambahkan parameter eventID
+	public static String checkAddGuestInput(String eventID, String guestEmail) {
+		String query = "SELECT COUNT(*) AS count FROM invitation " +
+				"WHERE event_id = ? AND user_id = (SELECT user_id FROM user WHERE user_email = ?) AND invitation_role = 'Guest'";
+
+		try (PreparedStatement ps = connect.prepareStatement(query)) {
+			ps.setString(1, eventID);
+			ps.setString(2, guestEmail);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next() && rs.getInt("count") > 0) {
+				return "Guest already invited"; // Berarti guest belum diundang
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; // Berarti guest sudah diundang
 	}
 }

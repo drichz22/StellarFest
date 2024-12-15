@@ -25,6 +25,8 @@ public class ViewOrganizedEvents_View {
 	private TableView<Event> eventTable;
 	private ObservableList<Event> eventList;
 	private Button eventDetailsButton;
+	private Button addVendorButton;
+	private Button addGuestButton;
 
 	public ViewOrganizedEvents_View() {
 		this.borderPane = new BorderPane();
@@ -84,10 +86,36 @@ public class ViewOrganizedEvents_View {
 				showAlert("No Event Selected", "Please select an event to edit event name.");
 			}
         });
+        
+        // Buat ke addVendor
+        addVendorButton = new Button("Add Vendor");
+        addVendorButton.setOnAction(event -> {
+        	Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+			if (selectedEvent != null) {
+				AddVendorsView addVendorView = new AddVendorsView(selectedEvent.getEvent_id());
+				Main.redirect(addVendorView.getAddVendorsView());
+			} else {
+				showAlert("No Event Selected", "Please select an event to add vendor.");
+			}
+        });
+        
+        // Buat ke addGuest
+        addGuestButton = new Button("Add Guest");
+        addGuestButton.setOnAction(event -> {
+        	Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+			if (selectedEvent != null) {
+				AddGuestsView addGuestView = new AddGuestsView(selectedEvent.getEvent_id());
+				Main.redirect(addGuestView.getAddGuestsView());
+			} else {
+				showAlert("No Event Selected", "Please select an event to add guest.");
+			}
+        });
 
 		// Add button and table to the grid
 		gridPane.add(eventDetailsButton, 0, 0);
 		gridPane.add(editBtn, 1, 0);
+		gridPane.add(addVendorButton, 2, 0);
+		gridPane.add(addGuestButton, 3, 0);
 		borderPane.setCenter(eventTable);
 	}
 
