@@ -60,7 +60,7 @@ public class LoginView {
 		messageLbl = new Label(); //untuk label error
 		messageLbl.setVisible(false);
 		
-		UserController userController = new UserController(this, null, "Login Page"); //inisialisasi controller
+		UserController userController = new UserController(this, null, null, "Login Page"); //inisialisasi controller
 		userController.Login(); //call method untuk login
 			
 		vb.getChildren().addAll(loginLabel, gp, loginBtn, messageLbl); //add semua komponen di VBox

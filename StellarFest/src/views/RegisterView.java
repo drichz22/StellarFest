@@ -82,7 +82,7 @@ public class RegisterView {
 		messageLbl = new Label(); //error label untuk validasi
 		messageLbl.setVisible(false);
 		
-		UserController userController = new UserController(null, this, "Register Page");
+		UserController userController = new UserController(null, this, null, "Register Page");
 		userController.Register(); //implementasi method register 
 
 		vb.getChildren().addAll(registLabel, gp, registerBtn, loginLink, messageLbl); //add semua komponen ke VBox

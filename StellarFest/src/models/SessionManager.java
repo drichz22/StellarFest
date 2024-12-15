@@ -1,6 +1,6 @@
 package models;
 
-public class SessionManager {
+public class SessionManager { //class ini untuk meng-capture data current User yang log in di aplikasi
 	
 	private static User loggedInUser;
 

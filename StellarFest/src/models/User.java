@@ -231,17 +231,17 @@ public class User {
 	}
 	
 	//Untuk keperluan fitur Change Profile
-	public static boolean updateUser(User oldUser) {
-		String query = "UPDATE user SET user_id = ?, user_email = ?, user_name = ?, user_password = ?, user_role = ?";
+	public static boolean updateUser(User newUser) {
+		String query = "UPDATE user SET user_email = ?, user_name = ?, user_password = ?, user_role = ? WHERE user_id = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
 		int rowsAffected = 0;
 		
 		try {
-			ps.setString(1, oldUser.getUser_id());
-			ps.setString(2, oldUser.getUser_email());
-			ps.setString(3, oldUser.getUser_name());
-			ps.setString(4, oldUser.getUser_password());
-			ps.setString(5, oldUser.getUser_role());
+			ps.setString(1, newUser.getUser_email());
+			ps.setString(2, newUser.getUser_name());
+			ps.setString(3, newUser.getUser_password());
+			ps.setString(4, newUser.getUser_role());
+			ps.setString(5, newUser.getUser_id());
 			rowsAffected = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
