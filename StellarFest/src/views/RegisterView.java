@@ -5,12 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -49,7 +51,7 @@ public class RegisterView {
 		// Role
 		Label roleLbl = new Label("Role: ");
 		rolePicker = new ComboBox<>();
-		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest", "Admin");
+		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest"); //Ada 3 role
 
 		GridPane gp = new GridPane();
 		gp.setAlignment(Pos.CENTER);
@@ -71,19 +73,19 @@ public class RegisterView {
 
 		registerBtn = new Button("Sign up");
 		
-		Hyperlink loginLink = new Hyperlink ("Already Have an Account? Login Here!");
-		loginLink.setOnAction(event -> {
+		Hyperlink loginLink = new Hyperlink ("Already Have an Account? Login Here!"); //Hyperlink untuk redirect ke login kalau sudah punya akun
+		loginLink.setOnAction(event -> { //logic redirect ke login
 			LoginView loginView = new LoginView();
 			Main.redirect(loginView.getLoginScene());
 		});
 		
-		messageLbl = new Label();
+		messageLbl = new Label(); //error label untuk validasi
 		messageLbl.setVisible(false);
 		
 		UserController userController = new UserController(null, this, "Register Page");
-		userController.Register();
+		userController.Register(); //implementasi method register 
 
-		vb.getChildren().addAll(registLabel, gp, registerBtn, loginLink, messageLbl);
+		vb.getChildren().addAll(registLabel, gp, registerBtn, loginLink, messageLbl); //add semua komponen ke VBox
 
 		borderPane.setCenter(vb);
 	}
@@ -92,6 +94,7 @@ public class RegisterView {
 		return registerScene;
 	}
 	
+	//Untuk mengambil input dari user
 	public String getEmailInput() {
 		return emailTf.getText();
 	}
@@ -108,22 +111,24 @@ public class RegisterView {
 		return rolePicker.getValue();
 	}
 	
-	public void setValidationMessage(String valid) {
+	public void setValidationMessage(String valid) { //untuk label validasi
 		messageLbl.setText(valid);
 		messageLbl.setVisible(true);
 		messageLbl.setTextFill(Color.RED);
 	}
-	
-	public void showSuccessMessage() {
-		messageLbl.setText("Registration Successful!");
-		messageLbl.setVisible(true);
-		messageLbl.setTextFill(Color.GREEN);
-	}
-	
-	public void showErrorMessage() {
+
+	public void showErrorMessage() { //untuk error message registrasi gagal
 		messageLbl.setText("Registration failed!");
 		messageLbl.setVisible(true);
 		messageLbl.setTextFill(Color.RED);
+	}
+	
+	public void showSuccessAlert() { //alert untuk menandakan registrasi berhasil
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Registration Status");
+		alert.setHeaderText(null);
+		alert.setContentText("Registration Successful!");
+		alert.showAndWait();
 	}
 
 	public void setRegisterBtnAction(EventHandler<ActionEvent> handler) {

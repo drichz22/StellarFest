@@ -189,6 +189,28 @@ public class User {
 		return user;
 	}
 	
+	//Untuk fitur admin dapat login hanya dengan input 'admin' untuk email dan password
+	public static User getAdmin() {
+		String query = "SELECT * FROM user WHERE user_role = 'Admin'";
+		PreparedStatement ps = connect.prepareStatement(query);
+		User user = null;
+		try {
+			ResultSet resultSet = ps.executeQuery();
+			if(resultSet.next()) {
+				String userId = resultSet.getString("user_id");
+				String userEmail = resultSet.getString("user_email");
+				String userName = resultSet.getString("user_name");
+				String userPassword = resultSet.getString("user_password");
+				String userRole = resultSet.getString("user_role");
+				
+				user = new User(userId, userEmail, userName, userPassword, userRole);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
 	//Untuk validasi input old password == password dari user sedang menjalankan session
 	public static String getPasswordFromUser(String userId) {
 		String query = "SELECT user_password FROM user WHERE user_id = ?";
