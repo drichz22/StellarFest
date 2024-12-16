@@ -71,7 +71,7 @@ public class HomePageView {
         navbar.getChildren().addAll(homeButton, changeProfileButton);
 
         // Role-based access button
-        if (SessionManager.getLoggedInUser().getUser_role().equals("Admin")) { //Khusus untuk Admin
+        if (SessionManager.getLoggedInUser().getUser_role().equals("Admin")) {
             Button viewAllEventsButton = new Button("View All Events");
             viewAllEventsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAllEventsButton.setOnAction(Event->{
@@ -96,6 +96,15 @@ public class HomePageView {
             });
             
             navbar.getChildren().addAll(viewOrganizedEvents, createEvent);
+        }
+        else if (SessionManager.getLoggedInUser().getUser_role().equals("Event Organizer")) {
+            Button viewOrganizedEventsButton = new Button("View Organized Events");
+            viewOrganizedEventsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewOrganizedEventsButton.setOnAction(Event->{
+            	ViewOrganizedEvents_View viewOrganizedEvents = new ViewOrganizedEvents_View();
+            	Main.redirect(viewOrganizedEvents.getOrganizedEventScene());
+            });
+            navbar.getChildren().add(viewOrganizedEventsButton);
         }
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Vendor")) { //Khusus untuk Vendor
         	Button myCoursesButton = new Button("Vendor");
@@ -122,13 +131,6 @@ public class HomePageView {
             viewAcceptedEventButton.setOnAction(Event->{
             	ViewGuestAcceptedEvents_View viewAcceptedEvent = new ViewGuestAcceptedEvents_View();
             	Main.redirect(viewAcceptedEvent.getViewAcceptedEventScene());
-            });
-            
-            Button viewAcceptedEventDetailsButton = new Button("View Accepted Event Details");
-            viewAcceptedEventDetailsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
-            viewAcceptedEventDetailsButton.setOnAction(Event->{
-            	ViewGuestAcceptedEventDetails_View viewAcceptedEventDetails = new ViewGuestAcceptedEventDetails_View();
-            	Main.redirect(viewAcceptedEventDetails.getViewAcceptedEventDetailsScene());
             });
                      
             navbar.getChildren().addAll(acceptInvitationButton, viewInvitationButton, viewAcceptedEventButton, viewAcceptedEventDetailsButton);

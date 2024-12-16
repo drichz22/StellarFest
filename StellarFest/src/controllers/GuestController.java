@@ -20,7 +20,6 @@ public class GuestController {
 	    return Guest.getAllGuestInvitations();
 	}
 
-
 	public void acceptInvitation(String eventId) { //Logika untuk update status invitation dari 'Pending' menjadi 'Accepted'
 		if (!eventId.isEmpty() && Guest.getInvitationByEventId(eventId) != null) { //Validasi item yang di-select
 			Guest.acceptGuestInvitation(eventId);

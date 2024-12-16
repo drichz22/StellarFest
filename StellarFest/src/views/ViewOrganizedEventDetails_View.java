@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -36,8 +37,8 @@ public class ViewOrganizedEventDetails_View {
 			return;
 		}
 		// Ambil daftar vendor dan guest berdasarkan eventID
-		HashMap<Vendor, String> vendorMap = EventOrganizerController.getVendorsByTransactionID(eventID);
-		HashMap<Guest, String> guestMap = EventOrganizerController.getGuestsByTransactionID(eventID);
+		ArrayList<Vendor> vendorList = EventOrganizerController.getVendorsByTransactionID(eventID);
+		ArrayList<Guest> guestList = EventOrganizerController.getGuestsByTransactionID(eventID);
 		
         VBox mainLayout = new VBox(10);
         mainLayout.setPadding(new Insets(10));
@@ -66,59 +67,46 @@ public class ViewOrganizedEventDetails_View {
         
         Separator separator1 = new Separator();
         // Tabel Vendor
-        TableView<Map.Entry<Vendor, String>> vendorTable = new TableView<>();
+        TableView<Vendor> vendorTable = new TableView<>();
+        
+        // Kolom ID Vendor
+        TableColumn<Vendor, String> vendorIdCol = new TableColumn<>("Vendor ID");
+        vendorIdCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
 
         // Kolom Nama Vendor
-        TableColumn<Map.Entry<Vendor, String>, String> vendorNameCol = new TableColumn<>("Vendor Name");
-        vendorNameCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getKey().getUser_name()
-        ));
-        
+        TableColumn<Vendor, String> vendorNameCol = new TableColumn<>("Vendor Name");
+        vendorNameCol.setCellValueFactory(new PropertyValueFactory<>("user_name"));
+
         // Kolom Email Vendor
-        TableColumn<Map.Entry<Vendor, String>, String> vendorEmailCol = new TableColumn<>("Vendor Email");
-        vendorEmailCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getKey().getUser_email()
-        ));
+        TableColumn<Vendor, String> vendorEmailCol = new TableColumn<>("Vendor Email");
+        vendorEmailCol.setCellValueFactory(new PropertyValueFactory<>("user_email"));
 
-        // Kolom Invitation Status
-        TableColumn<Map.Entry<Vendor, String>, String> statusCol = new TableColumn<>("Invitation Status");
-        statusCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getValue()
-        ));
+        vendorTable.getColumns().addAll(vendorIdCol, vendorNameCol, vendorEmailCol);
 
-        vendorTable.getColumns().addAll(vendorNameCol, vendorEmailCol, statusCol);
-
-        // Konversi HashMap ke ObservableList untuk ditampilkan di tabel
-        ObservableList<Map.Entry<Vendor, String>> vendorData = FXCollections.observableArrayList(vendorMap.entrySet());
-        vendorTable.setItems(vendorData);
-        
+        // Konversi ArrayList ke ObservableList untuk ditampilkan di tabel
+        ObservableList<Vendor> vendorData = FXCollections.observableArrayList(vendorList);
+        vendorTable.setItems(vendorData);        
         
         Separator separator2 = new Separator();
         // Tabel Guest
-        TableView<Map.Entry<Guest, String>> guestTable = new TableView<>();
+        TableView<Guest> guestTable = new TableView<>();
+        
+        // Kolom ID Guest
+        TableColumn<Guest, String> guestIdCol = new TableColumn<>("Guest ID");
+        guestIdCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
 
         // Kolom Nama Guest
-        TableColumn<Map.Entry<Guest, String>, String> guestNameCol = new TableColumn<>("Guest Name");
-        guestNameCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getKey().getUser_name()
-        ));
-        
+        TableColumn<Guest, String> guestNameCol = new TableColumn<>("Guest Name");
+        guestNameCol.setCellValueFactory(new PropertyValueFactory<>("user_name"));
+
         // Kolom Email Guest
-        TableColumn<Map.Entry<Guest, String>, String> guestEmailCol = new TableColumn<>("Guest Email");
-        guestEmailCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getKey().getUser_email()
-        ));
+        TableColumn<Guest, String> guestEmailCol = new TableColumn<>("Guest Email");
+        guestEmailCol.setCellValueFactory(new PropertyValueFactory<>("user_email"));
 
-        // Kolom Invitation Status
-        TableColumn<Map.Entry<Guest, String>, String> statusGuestCol = new TableColumn<>("Invitation Status");
-        statusGuestCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getValue()
-        ));
+        guestTable.getColumns().addAll(guestIdCol, guestNameCol, guestEmailCol);
 
-        guestTable.getColumns().addAll(guestNameCol, guestEmailCol, statusGuestCol);
-
-        // Konversi HashMap ke ObservableList untuk ditampilkan di tabel
-        ObservableList<Entry<Guest, String>> guestData = FXCollections.observableArrayList(guestMap.entrySet());
+        // Konversi ArrayList ke ObservableList untuk ditampilkan di tabel
+        ObservableList<Guest> guestData = FXCollections.observableArrayList(guestList);
         guestTable.setItems(guestData);
         
         

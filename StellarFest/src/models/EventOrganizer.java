@@ -3,13 +3,8 @@ package models;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 
 public class EventOrganizer extends User {
 
@@ -162,11 +157,11 @@ public class EventOrganizer extends User {
 	}
 
 	//Untuk mendapatkan list Vendor berdasarkan event
-	public static HashMap<Vendor, String> getVendorsByTransactionID(String eventID){
-		HashMap<Vendor, String> vendorMap = new HashMap<>();
-		String query = "SELECT DISTINCT u.user_id, user_email, user_name, user_password, user_role, i.invitation_status " +
+	public static ArrayList<Vendor> getVendorsByTransactionID(String eventID){
+		ArrayList<Vendor> vendorList = new ArrayList<>();
+		String query = "SELECT DISTINCT u.user_id, user_email, user_name, user_password, user_role " +
 				"FROM user u JOIN invitation i ON u.user_id = i.user_id " +
-				"WHERE i.event_id = ? AND i.invitation_role = 'Vendor'";
+				"WHERE i.event_id = ? AND i.invitation_role = 'Vendor' AND i.invitation_status = 'Accepted'";
 
 		try (PreparedStatement ps = connect.prepareStatement(query)) {
 			ps.setString(1, eventID);
@@ -178,26 +173,24 @@ public class EventOrganizer extends User {
 					String vendorEmail = resultSet.getString("user_email");
 					String vendorPassword = resultSet.getString("user_password");
 					String vendorRole = resultSet.getString("user_role");
-					String invitationStatus = resultSet.getString("invitation_status");
 
 					// Buat objek Vendor
 					Vendor vendor = new Vendor(vendorId, vendorEmail, vendorName, vendorPassword, vendorRole);
-
-					// Tambahkan Vendor ke HashMap
-					vendorMap.put(vendor, invitationStatus);
+					vendorList.add(vendor);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return vendorMap;
+		return vendorList;
 	}
+	
 	//Untuk mendapatkan list Guest berdasarkan event
-	public static HashMap<Guest, String> getGuestsByTransactionID(String eventID){
-		HashMap<Guest, String> guestMap = new HashMap<>();
-		String query = "SELECT DISTINCT u.user_id, user_email, user_name, user_password, user_role, i.invitation_status " +
+	public static ArrayList<Guest> getGuestsByTransactionID(String eventID){
+		ArrayList<Guest> guestList = new ArrayList<>();
+		String query = "SELECT DISTINCT u.user_id, user_email, user_name, user_password, user_role " +
 				"FROM user u JOIN invitation i ON u.user_id = i.user_id " +
-				"WHERE i.event_id = ? AND i.invitation_role = 'Guest'";
+				"WHERE i.event_id = ? AND i.invitation_role = 'Guest' AND i.invitation_status = 'Accepted'";
 
 		try (PreparedStatement ps = connect.prepareStatement(query)) {
 			ps.setString(1, eventID);
@@ -209,19 +202,16 @@ public class EventOrganizer extends User {
 					String guestEmail = resultSet.getString("user_email");
 					String guestPassword = resultSet.getString("user_password");
 					String guestRole = resultSet.getString("user_role");
-					String invitationStatus = resultSet.getString("invitation_status");
 
 					// Buat objek Guest
 					Guest guest = new Guest(guestId, guestEmail, guestName, guestPassword, guestRole);
-
-					// Tambahkan Guest ke HashMap
-					guestMap.put(guest, invitationStatus);
+					guestList.add(guest);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return guestMap;
+		return guestList;
 	}
 
 	//Untuk mengedit nama event

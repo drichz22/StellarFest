@@ -25,11 +25,11 @@ public class EventOrganizerController {
 		return EventOrganizer.getGuests();
 	}
 
-	public static HashMap<Vendor, String> getVendorsByTransactionID(String eventID){
+	public static ArrayList<Vendor> getVendorsByTransactionID(String eventID){
 		return EventOrganizer.getVendorsByTransactionID(eventID);
 	}
 
-	public static HashMap<Guest, String> getGuestsByTransactionID(String eventID){
+	public static ArrayList<Guest> getGuestsByTransactionID(String eventID){
 		return EventOrganizer.getGuestsByTransactionID(eventID);
 	}
 
