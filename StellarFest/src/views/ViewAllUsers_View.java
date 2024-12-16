@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import main.Main;
 import models.User;  
 
@@ -63,6 +62,28 @@ public class ViewAllUsers_View {
        
         borderPane.setCenter(userTable);
         
+        Button deleteButton = new Button("Delete User");
+        deleteButton.setOnAction(e -> {
+            User selectedUser = userTable.getSelectionModel().getSelectedItem();
+            if (selectedUser != null) {
+                // Konfirmasi sebelum menghapus
+                boolean confirmed = showDeleteConfirmation(selectedUser);
+                if (confirmed) {
+                    boolean deleted = AdminController.deleteUser(selectedUser.getUser_id());
+                    if (deleted) {
+                        userList.remove(selectedUser); // Menghapus user dari tampilan
+                        showAlert("Success", "User deleted successfully.");
+                    } else {
+                        showAlert("Error", "Failed to delete the user.");
+                    }
+                }
+            } else {
+                showAlert("Warning", "Please select a user to delete.");
+            }
+        });
+        
+        gridPane.add(deleteButton, 1, 0);
+        
         // Back button
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> {
@@ -70,9 +91,6 @@ public class ViewAllUsers_View {
         	HomePageView homePageView = new HomePageView();
             Main.redirect(homePageView.getHomePageScene());
         });
-
-//        HBox buttonBox = new HBox(10);
-//        buttonBox.getChildren().add(backButton);
         
         gridPane.add(backButton, 0, 0);
     }
@@ -87,6 +105,16 @@ public class ViewAllUsers_View {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    private boolean showDeleteConfirmation(User user) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText("Are you sure you want to delete this user?");
+        alert.setContentText("User: " + user.getUser_name() + " (" + user.getUser_id() + ")");
+        
+        // Show the confirmation dialog and return true if user confirms
+        return alert.showAndWait().filter(response -> response.getButtonData().isDefaultButton()).isPresent();
     }
 }
 

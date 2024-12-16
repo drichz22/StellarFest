@@ -70,4 +70,8 @@ public class Connect {
 		}
 		return ps;
 	}
+	
+	public Connection getConnection() {
+	    return connection;
+	}
 }

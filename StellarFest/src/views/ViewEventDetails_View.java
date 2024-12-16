@@ -3,7 +3,6 @@ package views;
 import java.util.ArrayList;
 
 import controllers.AdminController;
-import controllers.EventOrganizerController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

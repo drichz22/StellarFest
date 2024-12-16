@@ -64,29 +64,68 @@ public class Admin extends User {
     
     // Method untuk menghapus event berdasarkan ID
     public static boolean deleteEvent(String eventID) {
-        String query = "DELETE FROM event WHERE event_id = ?";
-        try (PreparedStatement ps = connect.prepareStatement(query)) {
-            ps.setString(1, eventID);
-            int rowsDeleted = ps.executeUpdate();
-            return rowsDeleted > 0;
+    	// Query untuk menghapus data terkait di tabel invitation
+        String deleteInvitationsQuery = "DELETE FROM invitation WHERE event_id = ?";
+        // Query untuk menghapus data utama dari tabel event
+        String deleteEventQuery = "DELETE FROM event WHERE event_id = ?";
+        Connect db = Connect.getInstance();
+
+        try {
+            // Memulai transaksi
+            db.getConnection().setAutoCommit(false);
+
+            // Hapus data terkait di tabel invitation
+            try (PreparedStatement psDeleteInvitations = db.prepareStatement(deleteInvitationsQuery)) {
+                psDeleteInvitations.setString(1, eventID);
+                psDeleteInvitations.executeUpdate();
+            }
+
+            // Hapus data utama dari tabel event
+            try (PreparedStatement psDeleteEvent = db.prepareStatement(deleteEventQuery)) {
+                psDeleteEvent.setString(1, eventID);
+                int rowsDeleted = psDeleteEvent.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    // Commit jika penghapusan berhasil
+                    db.getConnection().commit();
+                    return true;
+                } else {
+                    // Rollback jika tidak ada event yang dihapus
+                    db.getConnection().rollback();
+                    return false;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                // Rollback jika terjadi error
+                db.getConnection().rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
             return false;
+        } finally {
+            try {
+                // Kembalikan auto-commit ke true
+                db.getConnection().setAutoCommit(true);
+            } catch (SQLException autoCommitEx) {
+                autoCommitEx.printStackTrace();
+            }
         }
     }   
 
     // Method untuk menghapus user berdasarkan ID
     public static boolean deleteUser(String userID) {
-        String query = "DELETE FROM user WHERE user_id = ?";
-        try (PreparedStatement ps = connect.prepareStatement(query)) {
-            ps.setString(1, userID);
-            int rowsDeleted = ps.executeUpdate();
-            return rowsDeleted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }   
+    	 String query = "DELETE FROM user WHERE user_id = ?";
+         try (PreparedStatement ps = connect.prepareStatement(query)) {
+             ps.setString(1, userID);
+             int rowsDeleted = ps.executeUpdate();
+             return rowsDeleted > 0;
+         } catch (SQLException e) {
+             e.printStackTrace();
+             return false;
+         }
+    }
 
     // Method untuk mengambil semua user
     public static ArrayList<User> getAllUsers() {

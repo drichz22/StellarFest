@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -24,6 +25,7 @@ public class ViewAllEvents_View {
     private TableView<Event> eventTable;
     private ObservableList<Event> eventList;
     private Button eventDetailsButton;
+    private Button deleteEventButton;
 
     public ViewAllEvents_View() {
         this.borderPane = new BorderPane();
@@ -72,18 +74,51 @@ public class ViewAllEvents_View {
                 showAlert("No Event Selected", "Please select an event to view details.");
             }
         });
-
+        
+        // Buat tombol untuk menghapus event
+        deleteEventButton = new Button("Delete Event");
+        deleteEventButton.setOnAction(event -> {
+            Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+            if (selectedEvent != null) {
+                // Konfirmasi sebelum penghapusan
+                Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Delete Event Confirmation");
+                confirmationAlert.setHeaderText("Are you sure you want to delete this event?");
+                confirmationAlert.setContentText("This action will permanently remove the event from the system.");
+                confirmationAlert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Panggil controller untuk menghapus event
+                        boolean success = AdminController.deleteEvent(selectedEvent.getEvent_id());
+                        if (success) {
+                            eventList.remove(selectedEvent); // Hapus dari tabel
+                            showAlert("Success", "Event successfully deleted.", AlertType.INFORMATION);
+                        } else {
+                            showAlert("Error", "Failed to delete event.", AlertType.ERROR);
+                        }
+                    }
+                });
+            } else {
+                showAlert("No Event Selected", "Please select an event to delete.");
+            }
+        });
+        
         // Tambahkan tombol untuk melihat event ke grid
         gridPane.add(eventDetailsButton, 0, 0);
+        gridPane.add(deleteEventButton, 1, 0);
+        
         borderPane.setCenter(eventTable);
     }
 
     public Scene getAllEventsScene() {
         return allEventsScene;
     }
-
+    
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.ERROR);
+        showAlert(title, message, AlertType.ERROR);
+    }
+
+    private void showAlert(String title, String message, AlertType type) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

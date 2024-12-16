@@ -82,7 +82,7 @@ public class HomePageView {
             	ViewAllEvents_View viewAllEvents = new ViewAllEvents_View();
             	Main.redirect(viewAllEvents.getAllEventsScene());
             });
-            Button viewAllUsersButton = new Button("View All Events");
+            Button viewAllUsersButton = new Button("View All Users");
             viewAllUsersButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAllUsersButton.setOnAction(Event->{
             	ViewAllUsers_View viewAllUser = new ViewAllUsers_View();
