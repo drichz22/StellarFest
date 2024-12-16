@@ -81,9 +81,13 @@ public class HomePageView {
             navbar.getChildren().add(viewAllEventsButton);
         } 
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Event Organizer")) {
-            Button myCoursesButton = new Button("Event Organizer");
-            myCoursesButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
-            navbar.getChildren().add(myCoursesButton);
+            Button viewOrganizedEventsButton = new Button("View Organized Events");
+            viewOrganizedEventsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewOrganizedEventsButton.setOnAction(Event->{
+            	ViewOrganizedEvents_View viewOrganizedEvents = new ViewOrganizedEvents_View();
+            	Main.redirect(viewOrganizedEvents.getOrganizedEventScene());
+            });
+            navbar.getChildren().add(viewOrganizedEventsButton);
         }
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Vendor")) {
         	Button myCoursesButton = new Button("Vendor");
