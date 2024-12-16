@@ -4,6 +4,7 @@ import controllers.UserController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import views.AcceptGuestInvitationView;
 import views.ChangeProfileView;
 import views.CreateEventView;
 import views.EditEventNameView;
@@ -33,8 +34,9 @@ public class Main extends Application {
 //		ViewOrganizedEvents_View organizedEventView = new ViewOrganizedEvents_View();
 //		CreateEventView createEventView = new CreateEventView();
 //		EditEventNameView editEventNameView = new EditEventNameView();
+		//AcceptGuestInvitationView acceptGuestInvitationView = new AcceptGuestInvitationView();
 		
-		EventOrganizerController eoController = new EventOrganizerController();
+		//EventOrganizerController eoController = new EventOrganizerController();
 		
 		primaryStage.setTitle("StellarFest");
 
@@ -44,6 +46,7 @@ public class Main extends Application {
 //		primaryStage.setScene(organizedEventView.getOrganizedEventScene());
 //		primaryStage.setScene(createEventView.getCreateEventScene());
 //		primaryStage.setScene(editEventNameView.getEditEventNameScene());
+		//primaryStage.setScene(acceptGuestInvitationView.getAcceptInvitationScene());
 
 		primaryStage.show();
 	}

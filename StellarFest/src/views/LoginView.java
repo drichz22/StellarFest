@@ -1,13 +1,11 @@
 package views;
 
 import controllers.UserController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -16,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import main.Main;
 
 public class LoginView {
 	
@@ -61,7 +58,13 @@ public class LoginView {
 		messageLbl.setVisible(false);
 		
 		UserController userController = new UserController(this, null, null, "Login Page"); //inisialisasi controller
-		userController.Login(); //call method untuk login
+		
+		loginBtn.setOnAction(Event->{ //set logika untuk login btn
+			String email = emailTf.getText();
+			String password = passTf.getText();
+			
+			userController.login(email, password); //call method untuk login dari controller
+		});
 			
 		vb.getChildren().addAll(loginLabel, gp, loginBtn, messageLbl); //add semua komponen di VBox
 		
@@ -71,15 +74,6 @@ public class LoginView {
 
 	public Scene getLoginScene() {
 		return loginScene;
-	}
-	
-	//Untuk mengambil input dari user
-	public String getEmailInput() {
-		return emailTf.getText();
-	}
-	
-	public String getPasswordInput() {
-		return passTf.getText();
 	}
 	
 	public void setValidationMessage(String valid) { //Label jika ada input yang tidak sesuai
@@ -99,10 +93,9 @@ public class LoginView {
 		alert.setTitle("Login Status");
 		alert.setHeaderText(null);
 		alert.setContentText("Login Successful!");
+		alert.getButtonTypes().clear(); //hilangkan semua button (ok dan cancel)
+	    alert.getButtonTypes().add(ButtonType.OK); //hanya terapkan button ok
 		alert.showAndWait();
 	}
-	
-	public void setLoginBtnAction(EventHandler<ActionEvent> handler) { //setter btn untuk diterapkan logicnya di controller
-    	loginBtn.setOnAction(handler);
-    }
+
 }

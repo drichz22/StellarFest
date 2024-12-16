@@ -1,12 +1,11 @@
 package views;
 
 import controllers.UserController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -51,7 +50,7 @@ public class RegisterView {
 		// Role
 		Label roleLbl = new Label("Role: ");
 		rolePicker = new ComboBox<>();
-		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest"); //Ada 3 role
+		rolePicker.getItems().addAll("Event Organizer", "Vendor", "Guest"); //Ada 3 role 
 
 		GridPane gp = new GridPane();
 		gp.setAlignment(Pos.CENTER);
@@ -82,33 +81,24 @@ public class RegisterView {
 		messageLbl = new Label(); //error label untuk validasi
 		messageLbl.setVisible(false);
 		
-		UserController userController = new UserController(null, this, null, "Register Page");
-		userController.Register(); //implementasi method register 
+		UserController userController = new UserController(null, this, null, "Register Page"); //init UserController untuk page ini
+		
+		registerBtn.setOnAction(Event->{ //set logika register btn 
+			String email = emailTf.getText(); //dapatkan input user
+			String username = nameTf.getText();
+			String password = passTf.getText();
+			String role = rolePicker.getValue();
+			
+			userController.register(email, username, password, role); //call method untuk register dari controller
+		}); 
 
 		vb.getChildren().addAll(registLabel, gp, registerBtn, loginLink, messageLbl); //add semua komponen ke VBox
 
-		borderPane.setCenter(vb);
+		borderPane.setCenter(vb); //tengahkan semua layout
 	}
 
 	public Scene getRegisterScene() {
 		return registerScene;
-	}
-	
-	//Untuk mengambil input dari user
-	public String getEmailInput() {
-		return emailTf.getText();
-	}
-	
-	public String getUsernameInput() {
-		return nameTf.getText();
-	}
-	
-	public String getPasswordInput() {
-		return passTf.getText();
-	}
-	
-	public String getUserRole() {
-		return rolePicker.getValue();
 	}
 	
 	public void setValidationMessage(String valid) { //untuk label validasi
@@ -128,11 +118,9 @@ public class RegisterView {
 		alert.setTitle("Registration Status");
 		alert.setHeaderText(null);
 		alert.setContentText("Registration Successful!");
+		alert.getButtonTypes().clear(); //hilangkan semua button (ok dan cancel)
+	    alert.getButtonTypes().add(ButtonType.OK); //hanya terapkan button ok
 		alert.showAndWait();
 	}
-
-	public void setRegisterBtnAction(EventHandler<ActionEvent> handler) {
-    	registerBtn.setOnAction(handler);
-    }
 	
 }
