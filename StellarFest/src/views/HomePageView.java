@@ -76,9 +76,16 @@ public class HomePageView {
             viewAllEventsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAllEventsButton.setOnAction(Event->{
             	ViewAllEvents_View viewAllEvents = new ViewAllEvents_View();
-            	//Main.redirect(viewAllEvents);
+            	Main.redirect(viewAllEvents.getAllEventsScene());
             });
-            navbar.getChildren().add(viewAllEventsButton);
+            Button viewAllUsersButton = new Button("View All Events");
+            viewAllUsersButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewAllUsersButton.setOnAction(Event->{
+            	ViewAllUsers_View viewAllUser = new ViewAllUsers_View();
+            	Main.redirect(viewAllUser.getAllUsersScene());
+            });
+            navbar.getChildren().addAll(viewAllEventsButton,viewAllUsersButton);
+            
         } 
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Event Organizer")) {
             Button viewOrganizedEventsButton = new Button("View Organized Events");
