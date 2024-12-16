@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import main.Main;
 import models.SessionManager;
 
@@ -22,6 +23,9 @@ public class HomePageView {
 		
 		HBox navbar = createNavBar(SessionManager.getLoggedInUser().getUser_role());
         borderPane.setTop(navbar);
+        
+        Label brandLabel = new Label("StellarFest");
+        brandLabel.setFont(Font.font("Verdana",FontWeight.BOLD, 100));
 		
 		Label homeLabel = new Label("Home Page");
 		homeLabel.setFont(Font.font("Verdana", 48));
@@ -41,7 +45,7 @@ public class HomePageView {
 		VBox vb = new VBox(20);
 		vb.setAlignment(Pos.CENTER);
 		
-		vb.getChildren().addAll(homeLabel, helloLabel, userName, userEmail, userRole);
+		vb.getChildren().addAll(brandLabel, homeLabel, helloLabel, userName, userEmail, userRole);
 		
 		borderPane.setCenter(vb);
 	}
@@ -118,22 +122,22 @@ public class HomePageView {
             	AcceptGuestInvitationView acceptInvitationView = new AcceptGuestInvitationView();
             	Main.redirect(acceptInvitationView.getAcceptInvitationScene());
             });
-            
-            Button viewInvitationButton = new Button("View Invitations");
-            viewInvitationButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
-            viewInvitationButton.setOnAction(Event->{
-            	ViewGuestInvitations_View viewInvitations = new ViewGuestInvitations_View();
-            	Main.redirect(viewInvitations.getViewInvitationScene());
-            });
-            
+                
             Button viewAcceptedEventButton = new Button("View Accepted Events");
             viewAcceptedEventButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAcceptedEventButton.setOnAction(Event->{
             	ViewGuestAcceptedEvents_View viewAcceptedEvent = new ViewGuestAcceptedEvents_View();
             	Main.redirect(viewAcceptedEvent.getViewAcceptedEventScene());
             });
+            
+            Button viewAcceptedEventDetailsButton = new Button("View Accepted Event Details");
+            viewAcceptedEventDetailsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewAcceptedEventDetailsButton.setOnAction(Event->{
+            	ViewGuestAcceptedEventDetails_View viewInvitationDetails = new ViewGuestAcceptedEventDetails_View();
+            	Main.redirect(viewInvitationDetails.getViewAcceptedEventDetailsScene());
+            });
                      
-            navbar.getChildren().addAll(acceptInvitationButton, viewInvitationButton, viewAcceptedEventButton, viewAcceptedEventDetailsButton);
+            navbar.getChildren().addAll(acceptInvitationButton, viewAcceptedEventButton, viewAcceptedEventDetailsButton);
         }
 
         return navbar;

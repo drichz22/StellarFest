@@ -101,8 +101,8 @@ public class UserController {
 		if (name.isEmpty()) {
 			name = SessionManager.getLoggedInUser().getUser_name();
 		}
-		if (name.isEmpty()) {
-			name = SessionManager.getLoggedInUser().getUser_password();
+		if (newPassword.isEmpty()) {
+			newPassword = SessionManager.getLoggedInUser().getUser_password();
 		}
 
 		User updatedUser = new User(id, email, name, newPassword, role);

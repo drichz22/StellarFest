@@ -1,4 +1,5 @@
 package controllers;
+
 import java.util.ArrayList;
 
 import javafx.collections.ObservableMap;
@@ -29,13 +30,13 @@ public class GuestController {
 			return;
 		}
 	}
-
-	public static ArrayList<Invitation> viewAcceptedEvents(String email) {
+	
+	public static ArrayList<Invitation> getAllAcceptedEvents(String email){ //Untuk semua data invitation yang invitation_status = Accepted
 		return Guest.getAllAcceptedEvents(email);
 	}
-
-	public static ArrayList<Event> getAllAcceptedEventDetails() {
-		return Guest.getAllAcceptedEventDetails();
+	
+	public static ArrayList<Event> viewAcceptedEvents(String email){ //Untuk detail event dari invitation di atas
+		return Guest.getAllAcceptedEventDetails(email);
 	}
 
 }

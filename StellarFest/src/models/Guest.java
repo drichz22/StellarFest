@@ -25,8 +25,9 @@ public class Guest extends User {
 		this.accepted_invitations = accepted_invitations;
 	}
 	
+	//mendapatkan semua event_id, invitation_status, dan event_name fitur accept invitation
 	public static ArrayList<ObservableMap<String, String>> getAllGuestInvitations() {
-	    ArrayList<ObservableMap<String, String>> invitations = new ArrayList<>();
+	    ArrayList<ObservableMap<String, String>> invitations = new ArrayList<>(); //Pakai map agar tidak membuat model baru
 	    String query = "SELECT inv.event_id, inv.invitation_status, e.event_name FROM invitation inv "
 	            + "INNER JOIN event e ON inv.event_id = e.event_id WHERE inv.invitation_role = 'Guest' AND inv.user_id = ?";
 	    PreparedStatement ps = connect.prepareStatement(query);
@@ -49,8 +50,7 @@ public class Guest extends User {
 	    return invitations;
 	}
 
-
-	
+	//Untuk update invitation_status dari 'Pending' menjadi 'Accepted'
 	public static boolean acceptGuestInvitation(String eventId) {
 		String query = "UPDATE invitation SET invitation_status = 'Accepted' WHERE invitation_role = 'Guest' AND event_id = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
@@ -66,6 +66,7 @@ public class Guest extends User {
 		return rowsAffected > 0;
 	}
 	
+	//Untuk validasi kalau item yang dipilih pada tabel valid
 	public static Invitation getInvitationByEventId(String eventId){
 		Invitation inv = null;
 		String query = "SELECT * FROM invitation WHERE event_id = ?";
@@ -89,6 +90,7 @@ public class Guest extends User {
 		return inv;
 	}
 	
+	//Untuk mendapatkan semua invitation yang di accept oleh guest
 	public static ArrayList<Invitation> getAllAcceptedEvents(String email){
 		ArrayList<Invitation> invitations = new ArrayList<>();
 		String query = "SELECT * FROM invitation WHERE invitation_role = 'Guest' AND user_id = (SELECT user_id FROM user WHERE user_email = ?) AND invitation_role = 'Guest' AND invitation_status = 'Accepted'";
@@ -114,13 +116,14 @@ public class Guest extends User {
 		return invitations;
 	}
 	
-	public static ArrayList<Event> getAllAcceptedEventDetails(){
+	//Untuk mendapatkan detail event dari setiap invitation yang di accept oleh guest
+	public static ArrayList<Event> getAllAcceptedEventDetails(String email){
 		ArrayList<Event> events = new ArrayList<>();
-		String query = "SELECT ev.* FROM event ev INNER JOIN invitation inv ON inv.event_id = ev.event_id WHERE inv.invitation_role = 'Guest' AND inv.invitation_status = 'Accepted' AND inv.user_id = ?";
+		String query = "SELECT ev.* FROM event ev INNER JOIN invitation inv ON inv.event_id = ev.event_id WHERE inv.invitation_role = 'Guest' AND inv.invitation_status = 'Accepted' AND inv.user_id = (SELECT user_id FROM user WHERE user_email = ?)";
 		PreparedStatement ps = connect.prepareStatement(query);
 		
 		try {
-			ps.setString(1, SessionManager.getLoggedInUser().getUser_id());
+			ps.setString(1, email);
 			ResultSet resultSet = ps.executeQuery();
 			while (resultSet.next()) {
 				String event_id = resultSet.getString("event_id");

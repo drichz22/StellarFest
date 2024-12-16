@@ -39,7 +39,7 @@ public class AcceptGuestInvitationView {
 		//Buat kolom2 yang dibutuhkan (memakai Observable agar bisa refresh secara real time)
 		TableColumn<ObservableMap<String, String>, String> idColumn = new TableColumn<>("Event ID");
 		idColumn.setCellValueFactory(cellData -> 
-		    new SimpleStringProperty(cellData.getValue().get("event_id")));
+		    new SimpleStringProperty(cellData.getValue().get("event_id"))); //memakai SimpleStringProperty karena berupa ObservableMap
 
 		TableColumn<ObservableMap<String, String>, String> nameColumn = new TableColumn<>("Event Name");
 		nameColumn.setCellValueFactory(cellData -> 
