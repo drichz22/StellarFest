@@ -3,12 +3,12 @@ package views;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
-public class ViewInvitations_View {
+public class ViewGuestInvitations_View {
 	
 	private BorderPane borderPane;
 	private Scene viewInvitationScene;
 	
-	public ViewInvitations_View() {
+	public ViewGuestInvitations_View() {
 		this.borderPane = new BorderPane();
 		this.viewInvitationScene = new Scene(borderPane, 800, 600);
 	}

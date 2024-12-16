@@ -71,7 +71,7 @@ public class HomePageView {
         navbar.getChildren().addAll(homeButton, changeProfileButton);
 
         // Role-based access button
-        if (SessionManager.getLoggedInUser().getUser_role().equals("Admin")) {
+        if (SessionManager.getLoggedInUser().getUser_role().equals("Admin")) { //Khusus untuk Admin
             Button viewAllEventsButton = new Button("View All Events");
             viewAllEventsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAllEventsButton.setOnAction(Event->{
@@ -80,39 +80,58 @@ public class HomePageView {
             });
             navbar.getChildren().add(viewAllEventsButton);
         } 
-        else if (SessionManager.getLoggedInUser().getUser_role().equals("Event Organizer")) {
-            Button myCoursesButton = new Button("Event Organizer");
-            myCoursesButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
-            navbar.getChildren().add(myCoursesButton);
+        else if (SessionManager.getLoggedInUser().getUser_role().equals("Event Organizer")) { //Khusus untuk EO
+            Button viewOrganizedEvents = new Button("View Organized Events");
+            viewOrganizedEvents.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewOrganizedEvents.setOnAction(Event->{
+            	ViewOrganizedEvents_View viewOrgEvents = new ViewOrganizedEvents_View();
+            	Main.redirect(viewOrgEvents.getOrganizedEventScene());
+            });
+            
+            Button createEvent = new Button("Create Event");
+            createEvent.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            createEvent.setOnAction(Event->{
+            	CreateEventView createEventView = new CreateEventView();
+            	Main.redirect(createEventView.getCreateEventScene());
+            });
+            
+            navbar.getChildren().addAll(viewOrganizedEvents, createEvent);
         }
-        else if (SessionManager.getLoggedInUser().getUser_role().equals("Vendor")) {
+        else if (SessionManager.getLoggedInUser().getUser_role().equals("Vendor")) { //Khusus untuk Vendor
         	Button myCoursesButton = new Button("Vendor");
             myCoursesButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             navbar.getChildren().add(myCoursesButton);
         }
-        else if (SessionManager.getLoggedInUser().getUser_role().equals("Guest")) {
+        else if (SessionManager.getLoggedInUser().getUser_role().equals("Guest")) { //Khusus untuk Guest
         	Button acceptInvitationButton = new Button("Accept Invitation");
             acceptInvitationButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             acceptInvitationButton.setOnAction(Event->{
-            	AcceptInvitationView acceptInvitationView = new AcceptInvitationView();
+            	AcceptGuestInvitationView acceptInvitationView = new AcceptGuestInvitationView();
             	Main.redirect(acceptInvitationView.getAcceptInvitationScene());
             });
             
             Button viewInvitationButton = new Button("View Invitations");
             viewInvitationButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewInvitationButton.setOnAction(Event->{
-            	ViewInvitations_View viewInvitations = new ViewInvitations_View();
+            	ViewGuestInvitations_View viewInvitations = new ViewGuestInvitations_View();
             	Main.redirect(viewInvitations.getViewInvitationScene());
             });
             
             Button viewAcceptedEventButton = new Button("View Accepted Events");
             viewAcceptedEventButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
             viewAcceptedEventButton.setOnAction(Event->{
-            	ViewAcceptedEvents_View viewAcceptedEvent = new ViewAcceptedEvents_View();
+            	ViewGuestAcceptedEvents_View viewAcceptedEvent = new ViewGuestAcceptedEvents_View();
             	Main.redirect(viewAcceptedEvent.getViewAcceptedEventScene());
             });
+            
+            Button viewAcceptedEventDetailsButton = new Button("View Accepted Event Details");
+            viewAcceptedEventDetailsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewAcceptedEventDetailsButton.setOnAction(Event->{
+            	ViewGuestAcceptedEventDetails_View viewAcceptedEventDetails = new ViewGuestAcceptedEventDetails_View();
+            	Main.redirect(viewAcceptedEventDetails.getViewAcceptedEventDetailsScene());
+            });
                      
-            navbar.getChildren().addAll(acceptInvitationButton, viewInvitationButton, viewAcceptedEventButton);
+            navbar.getChildren().addAll(acceptInvitationButton, viewInvitationButton, viewAcceptedEventButton, viewAcceptedEventDetailsButton);
         }
 
         return navbar;

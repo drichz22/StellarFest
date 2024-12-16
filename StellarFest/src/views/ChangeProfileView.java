@@ -1,8 +1,6 @@
 package views;
 
 import controllers.UserController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import models.SessionManager;
 
 public class ChangeProfileView {
 	
@@ -75,7 +72,15 @@ public class ChangeProfileView {
 		messageLbl.setVisible(false);
 		
 		UserController userController = new UserController(null, null, this, "Change Profile Page"); //inisialisasi controller
-		userController.ChangeProfile(); //call method untuk change profile
+		
+		changeProfileBtn.setOnAction(Event->{ //set logika Update Btn
+			String email = emailTf.getText(); //Dapatkan input dari text field
+			String username = nameTf.getText();
+			String oldPass = passTf.getText();
+			String newPass = newPassTf.getText();
+			
+			userController.changeProfile(email, username, oldPass, newPass); //panggil logika change profile dari controller
+		});
 		
 		vb.getChildren().addAll(changeProfileLabel, gp, changeProfileBtn, messageLbl);
 		
@@ -84,22 +89,6 @@ public class ChangeProfileView {
 	
 	public Scene getChangeProfileScene() {
 		return changeProfileScene;
-	}
-
-	public String getEmailInput() {
-		return emailTf.getText();
-	}
-	
-	public String getUsernameInput() {
-		return nameTf.getText();
-	}
-	
-	public String getPasswordInput() {
-		return passTf.getText();
-	}
-		
-	public String getNewPassInput() {
-		return newPassTf.getText();
 	}
 
 	public void setValidationMessage(String valid) { //Label jika ada input yang tidak sesuai
@@ -121,9 +110,4 @@ public class ChangeProfileView {
 		alert.setContentText("Change Profile Successful!");
 		alert.showAndWait();
 	}
-	
-	public void setChangeProfileButtonAction(EventHandler<ActionEvent> handler) {
-		changeProfileBtn.setOnAction(handler);
-	}
-
 }
