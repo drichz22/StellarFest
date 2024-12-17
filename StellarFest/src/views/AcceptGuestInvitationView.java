@@ -48,9 +48,17 @@ public class AcceptGuestInvitationView {
 		TableColumn<ObservableMap<String, String>, String> roleColumn = new TableColumn<>("Invitation Status");
 		roleColumn.setCellValueFactory(cellData -> 
 		    new SimpleStringProperty(cellData.getValue().get("invitation_status")));
+		
+		TableColumn<ObservableMap<String, String>, String> organizerNameColumn = new TableColumn<>("Organizer Name");
+		organizerNameColumn.setCellValueFactory(cellData -> 
+		    new SimpleStringProperty(cellData.getValue().get("organizer_username")));
+		
+		TableColumn<ObservableMap<String, String>, String> organizerEmailColumn = new TableColumn<>("Organizer Email");
+		organizerEmailColumn.setCellValueFactory(cellData -> 
+		    new SimpleStringProperty(cellData.getValue().get("organizer_email")));
 
 		// Nambahin kolom ke tabel
-		invitationTable.getColumns().addAll(idColumn, nameColumn, roleColumn);
+		invitationTable.getColumns().addAll(idColumn, nameColumn, roleColumn, organizerNameColumn, organizerEmailColumn);
 
 		borderPane.setCenter(invitationTable);
 

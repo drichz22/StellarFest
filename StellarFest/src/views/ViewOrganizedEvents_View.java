@@ -110,12 +110,19 @@ public class ViewOrganizedEvents_View {
 				showAlert("No Event Selected", "Please select an event to add guest.");
 			}
         });
+        
+        Button backButton = new Button("Back"); //Logika back btn untuk navigasi
+        backButton.setOnAction(e -> {
+        	HomePageView homePageView = new HomePageView();
+            Main.redirect(homePageView.getHomePageScene());
+        });
 
 		// Add button and table to the grid
 		gridPane.add(eventDetailsButton, 0, 0);
 		gridPane.add(editBtn, 1, 0);
 		gridPane.add(addVendorButton, 2, 0);
 		gridPane.add(addGuestButton, 3, 0);
+		gridPane.add(backButton, 4, 0);
 		borderPane.setCenter(eventTable);
 	}
 

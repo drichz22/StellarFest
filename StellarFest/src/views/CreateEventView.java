@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import main.Main;
 import models.SessionManager;
 
 public class CreateEventView {
@@ -35,6 +36,12 @@ public class CreateEventView {
 	    descriptionField.setPrefHeight(100);
 
 	    Button submitButton = new Button("Create Event");
+	    
+	    Button backButton = new Button("Back"); //Logika back btn untuk navigasi
+        backButton.setOnAction(e -> {
+        	HomePageView homePageView = new HomePageView();
+            Main.redirect(homePageView.getHomePageScene());
+        });
 
 	    // Tambahkan ke grid
 	    grid.add(nameLabel, 0, 0);
@@ -50,6 +57,8 @@ public class CreateEventView {
 	    grid.add(descriptionField, 1, 3);
 
 	    grid.add(submitButton, 1, 4);
+	    
+	    grid.add(backButton, 1, 5);
 
 	    submitButton.setOnAction(e -> {
 	        String eventName = nameField.getText();

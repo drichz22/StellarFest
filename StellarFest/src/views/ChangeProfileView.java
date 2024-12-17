@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.Main;
 
 public class ChangeProfileView {
 	
@@ -71,6 +72,12 @@ public class ChangeProfileView {
 		messageLbl = new Label(); //untuk label error
 		messageLbl.setVisible(false);
 		
+		Button backButton = new Button("Back"); //Logika back btn untuk navigasi
+        backButton.setOnAction(e -> {
+        	HomePageView homePageView = new HomePageView();
+            Main.redirect(homePageView.getHomePageScene());
+        });
+		
 		UserController userController = new UserController(null, null, this, "Change Profile Page"); //inisialisasi controller
 		
 		changeProfileBtn.setOnAction(Event->{ //set logika Update Btn
@@ -82,7 +89,7 @@ public class ChangeProfileView {
 			userController.changeProfile(email, username, oldPass, newPass); //panggil logika change profile dari controller
 		});
 		
-		vb.getChildren().addAll(changeProfileLabel, gp, changeProfileBtn, messageLbl);
+		vb.getChildren().addAll(changeProfileLabel, gp, changeProfileBtn, messageLbl, backButton);
 		
 		borderPane.setCenter(vb);
 	}

@@ -28,8 +28,10 @@ public class Guest extends User {
 	//mendapatkan semua event_id, invitation_status, dan event_name fitur accept invitation
 	public static ArrayList<ObservableMap<String, String>> getAllGuestInvitations() {
 	    ArrayList<ObservableMap<String, String>> invitations = new ArrayList<>(); //Pakai map agar tidak membuat model baru
-	    String query = "SELECT inv.event_id, inv.invitation_status, e.event_name FROM invitation inv "
-	            + "INNER JOIN event e ON inv.event_id = e.event_id WHERE inv.invitation_role = 'Guest' AND inv.user_id = ?";
+	    String query = "SELECT inv.event_id, inv.invitation_status, e.event_name, u.user_name AS organizer_username, u.user_email AS organizer_email FROM invitation inv "
+	            + "INNER JOIN event e ON inv.event_id = e.event_id "
+	            + "INNER JOIN user u ON e.organizer_id = u.user_id "
+	            + "WHERE inv.invitation_role = 'Guest' AND inv.user_id = ?";
 	    PreparedStatement ps = connect.prepareStatement(query);
 
 	    try {
@@ -41,6 +43,8 @@ public class Guest extends User {
 	            invitationDetails.put("event_id", resultSet.getString("event_id"));
 	            invitationDetails.put("event_name", resultSet.getString("event_name"));
 	            invitationDetails.put("invitation_status", resultSet.getString("invitation_status"));
+	            invitationDetails.put("organizer_username", resultSet.getString("organizer_username"));
+	            invitationDetails.put("organizer_email", resultSet.getString("organizer_email"));
 
 	            invitations.add(invitationDetails);
 	        }
@@ -52,12 +56,13 @@ public class Guest extends User {
 
 	//Untuk update invitation_status dari 'Pending' menjadi 'Accepted'
 	public static boolean acceptGuestInvitation(String eventId) {
-		String query = "UPDATE invitation SET invitation_status = 'Accepted' WHERE invitation_role = 'Guest' AND event_id = ?";
+		String query = "UPDATE invitation SET invitation_status = 'Accepted' WHERE invitation_role = 'Guest' AND event_id = ? AND user_id = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
 		int rowsAffected = 0;
 		
 		try {
 			ps.setString(1, eventId);
+			ps.setString(2, SessionManager.getLoggedInUser().getUser_id());
 			rowsAffected = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,11 +74,12 @@ public class Guest extends User {
 	//Untuk validasi kalau item yang dipilih pada tabel valid
 	public static Invitation getInvitationByEventId(String eventId){
 		Invitation inv = null;
-		String query = "SELECT * FROM invitation WHERE event_id = ?";
+		String query = "SELECT * FROM invitation WHERE event_id = ? AND invitation_role = 'Guest' AND user_id = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
 		
 		try {
 			ps.setString(1, eventId);
+			ps.setString(2, SessionManager.getLoggedInUser().getUser_id());
 			ResultSet resultSet = ps.executeQuery();
 			if(resultSet.next()) {
 				String invitationId = resultSet.getString("invitation_id");
