@@ -58,9 +58,11 @@ public class HomePageView {
         // Tambahkan button untuk semua role
         Button homeButton = new Button("Home");
         Button changeProfileButton = new Button("Change Profile");
+        Button logOutButton = new Button("Log Out");
 
         homeButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
         changeProfileButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+        logOutButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
         
         homeButton.setOnAction(Event->{
         	HomePageView homePageView = new HomePageView();
@@ -71,8 +73,14 @@ public class HomePageView {
         	ChangeProfileView changeProfileView = new ChangeProfileView();
         	Main.redirect(changeProfileView.getChangeProfileScene());
         });
+        
+        logOutButton.setOnAction(Event->{
+        	SessionManager.setLoggedInUser(null); //set current user to be null
+        	RegisterView registerView = new RegisterView();
+        	Main.redirect(registerView.getRegisterScene());
+        });
 
-        navbar.getChildren().addAll(homeButton, changeProfileButton);
+        navbar.getChildren().addAll(homeButton, changeProfileButton, logOutButton);
 
         // Role-based access button
         if (SessionManager.getLoggedInUser().getUser_role().equals("Admin")) {
