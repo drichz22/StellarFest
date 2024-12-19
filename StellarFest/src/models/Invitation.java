@@ -3,6 +3,7 @@ package models;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import utils.Connect;
 
@@ -92,5 +93,24 @@ public class Invitation {
 		this.invitation_role = invitation_role;
 	}
 
+    // Static Method: Accept Invitation
+    public static boolean acceptInvitation(String eventID) {
+        // Simulate accepting invitation logic
+        System.out.println("Invitation for event ID: " + eventID + " has been accepted.");
+        return true; // Return true if successful
+    }
+
+    // Static Method: Get Invitations
+    public static ArrayList<Invitation> getInvitations(String email) {
+        // Simulate fetching invitations for a user by email
+        ArrayList<Invitation> invitations = new ArrayList<>();
+        
+        // Example data
+        invitations.add(new Invitation("1", "E001", "U001", "Pending", "Vendor"));
+        invitations.add(new Invitation("2", "E002", "U002", "Accepted", "Guest"));
+        
+        System.out.println("Invitations fetched for email: " + email);
+        return invitations;
+    }
 
 }

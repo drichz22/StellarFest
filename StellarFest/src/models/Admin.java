@@ -68,30 +68,29 @@ public class Admin extends User {
         String deleteInvitationsQuery = "DELETE FROM invitation WHERE event_id = ?";
         // Query untuk menghapus data utama dari tabel event
         String deleteEventQuery = "DELETE FROM event WHERE event_id = ?";
-        Connect db = Connect.getInstance();
 
         try {
             // Memulai transaksi
-            db.getConnection().setAutoCommit(false);
+        	connect.getConnection().setAutoCommit(false);
 
             // Hapus data terkait di tabel invitation
-            try (PreparedStatement psDeleteInvitations = db.prepareStatement(deleteInvitationsQuery)) {
+            try (PreparedStatement psDeleteInvitations = connect.prepareStatement(deleteInvitationsQuery)) {
                 psDeleteInvitations.setString(1, eventID);
                 psDeleteInvitations.executeUpdate();
             }
 
             // Hapus data utama dari tabel event
-            try (PreparedStatement psDeleteEvent = db.prepareStatement(deleteEventQuery)) {
+            try (PreparedStatement psDeleteEvent = connect.prepareStatement(deleteEventQuery)) {
                 psDeleteEvent.setString(1, eventID);
                 int rowsDeleted = psDeleteEvent.executeUpdate();
 
                 if (rowsDeleted > 0) {
                     // Commit jika penghapusan berhasil
-                    db.getConnection().commit();
+                	connect.getConnection().commit();
                     return true;
                 } else {
                     // Rollback jika tidak ada event yang dihapus
-                    db.getConnection().rollback();
+                	connect.getConnection().rollback();
                     return false;
                 }
             }
@@ -99,7 +98,7 @@ public class Admin extends User {
             e.printStackTrace();
             try {
                 // Rollback jika terjadi error
-                db.getConnection().rollback();
+            	connect.getConnection().rollback();
             } catch (SQLException rollbackEx) {
                 rollbackEx.printStackTrace();
             }
@@ -107,7 +106,7 @@ public class Admin extends User {
         } finally {
             try {
                 // Kembalikan auto-commit ke true
-                db.getConnection().setAutoCommit(true);
+            	connect.getConnection().setAutoCommit(true);
             } catch (SQLException autoCommitEx) {
                 autoCommitEx.printStackTrace();
             }

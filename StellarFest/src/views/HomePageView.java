@@ -128,7 +128,39 @@ public class HomePageView {
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Vendor")) { //Khusus untuk Vendor
         	Button myCoursesButton = new Button("Vendor");
             myCoursesButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
-            navbar.getChildren().add(myCoursesButton);
+            
+            
+            Button acceptInvitationButton = new Button("Accept Invitation");
+            acceptInvitationButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            acceptInvitationButton.setOnAction(Event->{
+            	AcceptVendorInvitationView acceptInvitationView = new AcceptVendorInvitationView();
+            	Main.redirect(acceptInvitationView.getAcceptInvitationScene());
+            });
+            
+            Button viewAcceptedEventButton = new Button("View Accepted Events");
+            viewAcceptedEventButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewAcceptedEventButton.setOnAction(Event->{
+            	ViewVendorAcceptedEvents_View viewAcceptedEvent = new ViewVendorAcceptedEvents_View();
+            	Main.redirect(viewAcceptedEvent.getViewAcceptedEventScene());
+            });
+            
+            Button viewAcceptedEventDetailsButton = new Button("View Accepted Event Details");
+            viewAcceptedEventDetailsButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewAcceptedEventDetailsButton.setOnAction(Event->{
+            	ViewVendorAcceptedEventDetails_View viewInvitationDetails = new ViewVendorAcceptedEventDetails_View();
+            	Main.redirect(viewInvitationDetails.getViewAcceptedEventDetailsScene());
+            });
+            
+            Button viewManageVendorButton = new Button("Manage Vendor");
+            viewManageVendorButton.setStyle("-fx-text-fill: white; -fx-background-color: #555;");
+            viewManageVendorButton.setOnAction(Event->{
+//            	ManageVendorView manageVendor = new ManageVendorView();
+//            	Main.redirect(manageVendor.getManageVendorScene());
+            	ViewAllProduct_View acceptInvitationView = new ViewAllProduct_View();
+            	Main.redirect(acceptInvitationView.getAllProductScene());
+            });
+            
+            navbar.getChildren().addAll(acceptInvitationButton, viewAcceptedEventButton, viewAcceptedEventDetailsButton,viewManageVendorButton);
         }
         else if (SessionManager.getLoggedInUser().getUser_role().equals("Guest")) { //Khusus untuk Guest
         	Button acceptInvitationButton = new Button("Accept Invitation");
