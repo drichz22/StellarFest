@@ -19,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Main;
 import models.Guest;
-import models.Vendor;
 
 public class AddGuestsView {
 	private Scene addGuestsView;

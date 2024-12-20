@@ -1,6 +1,5 @@
 package views;
 
-import controllers.EventController;
 import controllers.EventOrganizerController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

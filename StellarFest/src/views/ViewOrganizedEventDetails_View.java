@@ -1,10 +1,6 @@
 package views;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import controllers.EventOrganizerController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

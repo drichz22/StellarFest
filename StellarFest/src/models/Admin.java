@@ -2,7 +2,6 @@ package models;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import utils.Connect;
 
 public class Admin extends User {
@@ -113,7 +112,7 @@ public class Admin extends User {
         }
     }   
 
-    // Method untuk menghapus user berdasarkan ID
+    // Method untuk menghapus user berdasarkan ID (tidak menyebabkan error karena ada constraint ON DELETE CASCADE pada DB)
     public static boolean deleteUser(String userID) {
     	 String query = "DELETE FROM user WHERE user_id = ?";
          try (PreparedStatement ps = connect.prepareStatement(query)) {

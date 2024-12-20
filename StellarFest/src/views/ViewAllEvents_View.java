@@ -102,9 +102,17 @@ public class ViewAllEvents_View {
             }
         });
         
+     // Back button
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> {
+        	HomePageView homePageView = new HomePageView();
+            Main.redirect(homePageView.getHomePageScene());
+        });
+        
         // Tambahkan tombol untuk melihat event ke grid
-        gridPane.add(eventDetailsButton, 0, 0);
-        gridPane.add(deleteEventButton, 1, 0);
+        gridPane.add(backButton, 0, 0);
+        gridPane.add(eventDetailsButton, 1, 0);
+        gridPane.add(deleteEventButton, 2, 0);
         
         borderPane.setCenter(eventTable);
     }

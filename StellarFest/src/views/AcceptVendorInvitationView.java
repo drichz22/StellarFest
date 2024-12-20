@@ -2,7 +2,6 @@ package views;
 
 import java.util.ArrayList;
 
-import controllers.GuestController;
 import controllers.VendorController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

@@ -61,6 +61,7 @@ public class Connect {
 		return rowsAffected;
 	}
 	
+	//declare PreparedStatement untuk kemudahan pembuatan query dan mencegah SQL Injection
 	public PreparedStatement prepareStatement (String query) {
 		PreparedStatement ps = null;
 		try {

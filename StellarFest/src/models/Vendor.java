@@ -95,7 +95,7 @@ public class Vendor extends User{
 		return inv;
 	}
 	
-	//Untuk mendapatkan semua invitation yang di accept oleh guest
+	//Untuk mendapatkan semua invitation yang di accept oleh vendor
 	public static ArrayList<Invitation> getAllAcceptedEvents(String email){
 		ArrayList<Invitation> invitations = new ArrayList<>();
 		String query = "SELECT * FROM invitation WHERE invitation_role = 'Vendor' AND user_id = (SELECT user_id FROM user WHERE user_email = ?) AND invitation_role = 'Vendor' AND invitation_status = 'Accepted'";
@@ -121,7 +121,7 @@ public class Vendor extends User{
 		return invitations;
 	}
 	
-	//Untuk mendapatkan detail event dari setiap invitation yang di accept oleh guest
+	//Untuk mendapatkan detail event dari setiap invitation yang di accept oleh vendor
 	public static ArrayList<Event> getAllAcceptedEventDetails(String email){
 		ArrayList<Event> events = new ArrayList<>();
 		String query = "SELECT ev.* FROM event ev INNER JOIN invitation inv ON inv.event_id = ev.event_id WHERE inv.invitation_role = 'Vendor' AND inv.invitation_status = 'Accepted' AND inv.user_id = (SELECT user_id FROM user WHERE user_email = ?)";
@@ -148,15 +148,15 @@ public class Vendor extends User{
 	}
 	
 	public static void manageVendor(String productID, String productName, String productDescription) {
-		String query = "UPDATE product SET product_name = ?, product_description = ? WHERE product_id = ?";
+		String query = "UPDATE product SET product_name = ?, product_description = ? WHERE product_id = ? AND vendor_id = ?";
 		PreparedStatement ps = connect.prepareStatement(query);
 		try {
 			ps.setString(1, productName);
 			ps.setString(2, productDescription);
 			ps.setString(3, productID);
+			ps.setString(4, SessionManager.getLoggedInUser().getUser_id());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -181,10 +181,11 @@ public class Vendor extends User{
 	
 	public static ArrayList<Product> viewAllProducts() {
     	ArrayList<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM product";
+        String query = "SELECT * FROM product WHERE vendor_id = ?";
 
-        try (PreparedStatement ps = connect.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connect.prepareStatement(query)) {
+        	ps.setString(1, SessionManager.getLoggedInUser().getUser_id());
+        	ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String product_id = rs.getString("product_id");
                 String vendor_id = rs.getString("vendor_id");
@@ -202,10 +203,11 @@ public class Vendor extends User{
 	
 	public static Product viewProductDetails(String productID){
 		Product product = null;
-		String query = "SELECT * FROM product WHERE product_id = ?";
+		String query = "SELECT * FROM product WHERE product_id = ? AND vendor_id = ?";
 
 		try (PreparedStatement ps = connect.prepareStatement(query)){	
 			ps.setString(1, productID);
+			ps.setString(2, SessionManager.getLoggedInUser().getUser_id());
 			ResultSet resultSet = ps.executeQuery();
 			while(resultSet.next()) {
 				String product_id = resultSet.getString("product_id");
@@ -217,7 +219,6 @@ public class Vendor extends User{
                 product = new Product(product_id, vendor_id, product_name, product_description);
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return product;

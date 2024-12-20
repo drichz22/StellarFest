@@ -3,7 +3,6 @@ package controllers;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableMap;
-import models.Admin;
 import models.Event;
 import models.Invitation;
 import models.Product;
